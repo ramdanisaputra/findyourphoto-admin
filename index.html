@@ -325,15 +325,21 @@
     // Auth State
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Ambil data profil kustom dari Firestore jika ada
-        const userDocRef = doc(db, "users", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
+        try {
+          // Ambil data profil kustom dari Firestore jika ada
+          const userDocRef = doc(db, "users", user.uid);
+          const userDocSnap = await getDoc(userDocRef);
 
-        if (userDocSnap.exists()) {
-          const userData = userDocSnap.data();
-          currentCustomName = userData.custom_name || user.displayName;
-          currentCustomPhoto = userData.photo_url || user.photoURL;
-        } else {
+          if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            currentCustomName = userData.custom_name || user.displayName;
+            currentCustomPhoto = userData.photo_url || user.photoURL;
+          } else {
+            currentCustomName = user.displayName || "Fotografer";
+            currentCustomPhoto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentCustomName)}`;
+          }
+        } catch (err) {
+          console.warn("Gagal membaca profil kustom, menggunakan data bawaan Google:", err);
           currentCustomName = user.displayName || "Fotografer";
           currentCustomPhoto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentCustomName)}`;
         }
@@ -352,8 +358,13 @@
         if (unsubscribeSnapshot) unsubscribeSnapshot();
       }
     });
-
-    btnLogin.addEventListener("click", () => signInWithPopup(auth, provider));
+    btnLogin.addEventListener("click", async () => {
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (err) {
+        alert("Gagal login dengan Google: " + err.message);
+      }
+    });
     btnLogout.addEventListener("click", () => signOut(auth));
 
     // Submit Edit Profil
