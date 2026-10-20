@@ -54,12 +54,17 @@
         </div>
 
         <!-- User Profile Info & Logout -->
-        <div class="flex items-center gap-4">
-          <div class="text-right hidden sm:block">
-            <p id="userName" class="text-sm font-semibold text-slate-200"></p>
-            <p id="userEmail" class="text-xs text-slate-400"></p>
+        <div class="flex items-center gap-3">
+          <div id="btnEditProfile" class="flex items-center gap-3 bg-slate-900/80 hover:bg-slate-800 p-1.5 pr-3 rounded-2xl border border-slate-700/80 cursor-pointer transition group" title="Klik untuk edit profil fotografer">
+            <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar" class="w-9 h-9 rounded-xl object-cover border border-blue-500/40 group-hover:border-blue-400 transition">
+            <div class="text-left hidden sm:block">
+              <p id="userName" class="text-xs font-bold text-slate-200 group-hover:text-blue-400 transition leading-tight"></p>
+              <p id="userEmail" class="text-[10px] text-slate-400 leading-tight"></p>
+            </div>
+            <svg class="w-4 h-4 text-slate-500 group-hover:text-slate-300 transition ml-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
           </div>
-          <button id="btnLogout" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold py-2 px-3.5 rounded-xl border border-red-500/20 transition">
+
+          <button id="btnLogout" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold py-2.5 px-3.5 rounded-xl border border-red-500/20 transition">
             Logout
           </button>
         </div>
@@ -128,7 +133,6 @@
               </tr>
             </thead>
             <tbody id="eventListTable" class="divide-y divide-slate-800/60 text-sm">
-              <!-- Loading Skeleton / Empty State -->
               <tr>
                 <td colspan="5" class="py-8 text-center text-slate-500 text-sm">
                   Memuat daftar event Anda...
@@ -140,6 +144,50 @@
       </div>
 
     </main>
+  </div>
+
+
+  <!-- ================= MODAL EDIT PROFIL ================= -->
+  <div id="profileModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-700 relative">
+      <div class="flex justify-between items-center mb-5 pb-3 border-b border-slate-800">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+          Edit Profil Fotografer
+        </h3>
+        <button id="btnCloseProfileModal" class="text-slate-400 hover:text-white p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <form id="profileForm" class="space-y-4">
+        <div class="text-center mb-2">
+          <img id="profilePreview" src="" class="w-20 h-20 rounded-2xl object-cover mx-auto mb-2 border-2 border-blue-500 shadow-lg shadow-blue-500/20">
+          <p class="text-[11px] text-slate-400">Pratinjau Foto Profil</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Nama Tampilan / Brand Fotografer</label>
+          <input type="text" id="editDisplayName" required placeholder="Contoh: Ramdani Photography" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+          <p class="text-[11px] text-slate-500 mt-1">Nama ini yang muncul di filter pilihan fotografer web Riders.</p>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">URL Foto Profil (Link Gambar)</label>
+          <input type="url" id="editPhotoURL" placeholder="https://... / link foto profil" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+          <p class="text-[11px] text-slate-500 mt-1">Bisa dikosongkan untuk menggunakan foto akun Google.</p>
+        </div>
+
+        <div class="flex justify-end gap-3 pt-3 border-t border-slate-800">
+          <button type="button" id="btnCancelProfileModal" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition">
+            Batal
+          </button>
+          <button type="submit" id="btnSaveProfile" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-blue-500/20">
+            Simpan Profil
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 
 
@@ -186,13 +234,12 @@
   </div>
 
 
-  <!-- ================= FIREBASE SCRIPT (SDK v10 Modular) ================= -->
+  <!-- ================= FIREBASE SCRIPT ================= -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, query, where, onSnapshot, deleteDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // 1. Konfigurasi Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyCO2QRZMA1Ui8J1eQA89o76oSc_YpfdEiU",
       authDomain: "find-your-photo-188a0.firebaseapp.com",
@@ -203,10 +250,8 @@
       measurementId: "G-G7SLK6MJ8E"
     };
 
-    // URL WEBHOOK GAS KAMU (Untuk Menghapus File JSON di Drive)
-    const GAS_WEBHOOK_URL = "ISI_DENGAN_URL_WEB_APP_GAS_KAMU_YANG_BERAKHIRAN_EXEC";
+    const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwCnZTJmkfKnxjXiEudEEO01ApI4-kIcj0pJbXM-iLy4EqWuzPSRVVAuABuDAswhy7b/exec";
 
-    // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -217,14 +262,26 @@
     const adminSection = document.getElementById("adminSection");
     const userName = document.getElementById("userName");
     const userEmail = document.getElementById("userEmail");
+    const userAvatar = document.getElementById("userAvatar");
     const btnLogin = document.getElementById("btnLogin");
     const btnLogout = document.getElementById("btnLogout");
     
+    // Modal Event Elements
     const eventModal = document.getElementById("eventModal");
     const btnOpenModal = document.getElementById("btnOpenModal");
     const btnCloseModal = document.getElementById("btnCloseModal");
     const btnCancelModal = document.getElementById("btnCancelModal");
     const eventForm = document.getElementById("eventForm");
+
+    // Modal Profile Elements
+    const profileModal = document.getElementById("profileModal");
+    const btnEditProfile = document.getElementById("btnEditProfile");
+    const btnCloseProfileModal = document.getElementById("btnCloseProfileModal");
+    const btnCancelProfileModal = document.getElementById("btnCancelProfileModal");
+    const profileForm = document.getElementById("profileForm");
+    const editDisplayName = document.getElementById("editDisplayName");
+    const editPhotoURL = document.getElementById("editPhotoURL");
+    const profilePreview = document.getElementById("profilePreview");
     
     const eventListTable = document.getElementById("eventListTable");
     const statTotal = document.getElementById("statTotal");
@@ -232,30 +289,62 @@
     const statSelesai = document.getElementById("statSelesai");
 
     let unsubscribeSnapshot = null;
+    let currentCustomName = "";
+    let currentCustomPhoto = "";
 
-    // Helper: Ekstraksi Folder ID
     function extractFolderId(url) {
       const match = url.match(/folders\/([a-zA-Z0-9_-]+)/);
       return match ? match[1] : null;
     }
 
-    // Toggle Modal
-    function openModal() { eventModal.classList.remove("hidden"); }
-    function closeModal() { eventModal.classList.add("hidden"); eventForm.reset(); }
+    // Modal Toggles
+    function openEventModal() { eventModal.classList.remove("hidden"); }
+    function closeEventModal() { eventModal.classList.add("hidden"); eventForm.reset(); }
+    
+    function openProfileModal() {
+      editDisplayName.value = currentCustomName || auth.currentUser.displayName || "";
+      editPhotoURL.value = currentCustomPhoto || auth.currentUser.photoURL || "";
+      profilePreview.src = editPhotoURL.value || auth.currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(editDisplayName.value)}`;
+      profileModal.classList.remove("hidden");
+    }
+    function closeProfileModal() { profileModal.classList.add("hidden"); }
 
-    btnOpenModal.addEventListener("click", openModal);
-    btnCloseModal.addEventListener("click", closeModal);
-    btnCancelModal.addEventListener("click", closeModal);
+    btnOpenModal.addEventListener("click", openEventModal);
+    btnCloseModal.addEventListener("click", closeEventModal);
+    btnCancelModal.addEventListener("click", closeEventModal);
 
-    // Pantau Auth Status
-    onAuthStateChanged(auth, (user) => {
+    btnEditProfile.addEventListener("click", openProfileModal);
+    btnCloseProfileModal.addEventListener("click", closeProfileModal);
+    btnCancelProfileModal.addEventListener("click", closeProfileModal);
+
+    // Dynamic Image Preview saat ketik URL
+    editPhotoURL.addEventListener("input", function() {
+      profilePreview.src = this.value || `https://ui-avatars.com/api/?name=${encodeURIComponent(editDisplayName.value)}`;
+    });
+
+    // Auth State
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        userName.textContent = user.displayName || "Fotografer";
+        // Ambil data profil kustom dari Firestore jika ada
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          currentCustomName = userData.custom_name || user.displayName;
+          currentCustomPhoto = userData.photo_url || user.photoURL;
+        } else {
+          currentCustomName = user.displayName || "Fotografer";
+          currentCustomPhoto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentCustomName)}`;
+        }
+
+        userName.textContent = currentCustomName;
         userEmail.textContent = user.email;
+        userAvatar.src = currentCustomPhoto;
+
         loginSection.classList.add("hidden");
         adminSection.classList.remove("hidden");
 
-        // Muat Data Realtime Event milik User ini
         loadUserEvents(user.email);
       } else {
         loginSection.classList.remove("hidden");
@@ -266,6 +355,42 @@
 
     btnLogin.addEventListener("click", () => signInWithPopup(auth, provider));
     btnLogout.addEventListener("click", () => signOut(auth));
+
+    // Submit Edit Profil
+    profileForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const newName = editDisplayName.value.trim();
+      const newPhoto = editPhotoURL.value.trim() || `https://ui-avatars.com/api/?name=${encodeURIComponent(newName)}`;
+
+      try {
+        const user = auth.currentUser;
+        
+        // 1. Simpan ke Firestore koleksi 'users'
+        await setDoc(doc(db, "users", user.uid), {
+          custom_name: newName,
+          photo_url: newPhoto,
+          email: user.email,
+          updated_at: new Date()
+        });
+
+        // 2. Update Firebase Auth Profile
+        await updateProfile(user, {
+          displayName: newName,
+          photoURL: newPhoto
+        });
+
+        currentCustomName = newName;
+        currentCustomPhoto = newPhoto;
+
+        userName.textContent = currentCustomName;
+        userAvatar.src = currentCustomPhoto;
+
+        closeProfileModal();
+        alert("Profil fotografer berhasil diperbarui!");
+      } catch (err) {
+        alert("Gagal memperbarui profil: " + err.message);
+      }
+    });
 
     // Submit Event Baru
     eventForm.addEventListener("submit", async (e) => {
@@ -283,7 +408,7 @@
 
       try {
         await addDoc(collection(db, "queues"), {
-          photographer_name: auth.currentUser.displayName || auth.currentUser.email,
+          photographer_name: currentCustomName || auth.currentUser.displayName || auth.currentUser.email,
           photographer_email: auth.currentUser.email,
           event_name: name,
           event_date: date,
@@ -292,13 +417,13 @@
           created_at: new Date()
         });
 
-        closeModal();
+        closeEventModal();
       } catch (err) {
         alert("Gagal menambahkan event: " + err.message);
       }
     });
 
-    // Realtime Listener Data Event Per-Akun
+    // Realtime Listener Data Event
     function loadUserEvents(email) {
       const q = query(
         collection(db, "queues"),
@@ -311,10 +436,8 @@
           docsData.push({ id: docSnap.id, ...docSnap.data() });
         });
 
-        // Urutkan berdasarkan tanggal dibuat (terbaru di atas)
         docsData.sort((a, b) => (b.created_at?.seconds || 0) - (a.created_at?.seconds || 0));
 
-        // Update Stats
         statTotal.textContent = docsData.length;
         statPending.textContent = docsData.filter(d => d.status === "Pending" || d.status === "Diproses").length;
         statSelesai.textContent = docsData.filter(d => d.status === "Selesai").length;
@@ -323,7 +446,6 @@
       });
     }
 
-    // Render Tabel Event
     function renderTable(events) {
       if (events.length === 0) {
         eventListTable.innerHTML = `
@@ -347,7 +469,7 @@
           badgeStatus = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Antrean (Pending)</span>`;
         }
 
-        const jsonName = ev.json_filename ? ev.json_filename.replace("databases/", "") : "-";
+        const jsonName = ev.json_filename ? ev.json_filename.split(/[\\/]/).pop() : "-";
 
         return `
           <tr class="hover:bg-slate-800/40 transition">
@@ -368,17 +490,15 @@
       }).join("");
     }
 
-    // Fungsi Global Hapus Event
+    // Fungsi Hapus Event
     window.deleteEvent = async function(docId, jsonFilename) {
       if (!confirm(`Apakah Anda yakin ingin menghapus event ini?\nFile JSON "${jsonFilename}" di Google Drive Master juga akan dihapus.`)) {
         return;
       }
 
       try {
-        // 1. Hapus Dokumen dari Firebase Firestore
         await deleteDoc(doc(db, "queues", docId));
 
-        // 2. Jika ada file JSON, kirim perintah hapus ke Webhook GAS
         if (jsonFilename && jsonFilename !== "-") {
           fetch(GAS_WEBHOOK_URL, {
             method: "POST",
