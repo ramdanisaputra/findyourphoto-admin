@@ -3,68 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Fotografer - AI Photo Finder</title>
+  <title>Dashboard Fotografer - AI Photo Finder</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
 </head>
-<body class="bg-slate-900 text-white min-h-screen flex flex-col justify-center items-center p-4">
+<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-blue-500 selection:text-white">
 
-  <!-- Card Utama -->
-  <div class="bg-slate-800 p-6 rounded-xl shadow-xl w-full max-w-md border border-slate-700">
-    <h1 class="text-2xl font-bold text-center text-blue-400 mb-6">Admin Photo Finder</h1>
+  <!-- ================= LOG IN SECTION ================= -->
+  <div id="loginSection" class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+    <!-- Background Decor -->
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
-    <!-- Tampilan Sebelum Login -->
-    <div id="loginSection" class="text-center py-4">
-      <p class="text-slate-400 mb-4">Silakan login menggunakan akun Gmail fotografer untuk membuat event baru.</p>
-      <button id="btnLogin" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition">
+    <div class="glass-card p-8 rounded-2xl max-w-md w-full shadow-2xl relative z-10 text-center">
+      <div class="w-16 h-16 bg-blue-600/20 text-blue-400 rounded-2xl flex items-center justify-center mx-auto mb-5 border border-blue-500/30">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h0.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3" stroke-width="2"/></svg>
+      </div>
+      <h1 class="text-2xl font-extrabold text-white mb-2">AI Photo Finder</h1>
+      <p class="text-sm text-slate-400 mb-8">Portal Kelola Event & Sinkronisasi Foto Fotografer</p>
+
+      <button id="btnLogin" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 px-5 rounded-xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-3 transition transform active:scale-95">
         <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
         Login dengan Google
       </button>
     </div>
+  </div>
 
-    <!-- Tampilan Setelah Login -->
-    <div id="adminSection" class="hidden">
-      <div class="flex justify-between items-center mb-6 pb-3 border-b border-slate-700">
-        <div>
-          <p class="text-xs text-slate-400">Selamat datang,</p>
-          <p id="userName" class="font-semibold text-blue-300"></p>
+
+  <!-- ================= DASHBOARD MAIN SECTION ================= -->
+  <div id="adminSection" class="hidden min-h-screen flex flex-col">
+    <!-- Navbar Top -->
+    <header class="glass-card sticky top-0 z-30 px-6 py-4 border-b border-slate-800">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-600/20 text-blue-400 rounded-xl flex items-center justify-center border border-blue-500/30">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h0.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold text-white leading-tight">AI Photo Finder</h1>
+            <p class="text-xs text-slate-400">Dashboard Fotografer</p>
+          </div>
         </div>
-        <button id="btnLogout" class="text-xs bg-red-600/20 hover:bg-red-600/40 text-red-400 py-1 px-3 rounded border border-red-500/30">Logout</button>
+
+        <!-- User Profile Info & Logout -->
+        <div class="flex items-center gap-4">
+          <div class="text-right hidden sm:block">
+            <p id="userName" class="text-sm font-semibold text-slate-200"></p>
+            <p id="userEmail" class="text-xs text-slate-400"></p>
+          </div>
+          <button id="btnLogout" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold py-2 px-3.5 rounded-xl border border-red-500/20 transition">
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
+
+      <!-- Stat Highlight Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="glass-card p-5 rounded-2xl flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-400 uppercase tracking-wider">Total Event Anda</p>
+            <p id="statTotal" class="text-2xl font-extrabold text-white mt-1">0</p>
+          </div>
+          <div class="w-11 h-11 bg-blue-500/10 text-blue-400 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+          </div>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-400 uppercase tracking-wider">Sedang Diproses AI</p>
+            <p id="statPending" class="text-2xl font-extrabold text-amber-400 mt-1">0</p>
+          </div>
+          <div class="w-11 h-11 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </div>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl flex items-center justify-between">
+          <div>
+            <p class="text-xs text-slate-400 uppercase tracking-wider">Selesai Terproses</p>
+            <p id="statSelesai" class="text-2xl font-extrabold text-emerald-400 mt-1">0</p>
+          </div>
+          <div class="w-11 h-11 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+        </div>
       </div>
 
-      <!-- Form Event Baru -->
+      <!-- Header & Button Tambah Event -->
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-2">
+        <div>
+          <h2 class="text-xl font-bold text-white">Daftar Event Terdaftar</h2>
+          <p class="text-xs text-slate-400">Kelola antrean dan database hasil analisis AI per event Anda.</p>
+        </div>
+        <button id="btnOpenModal" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg shadow-blue-500/20 flex items-center gap-2 transition active:scale-95 text-sm">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Upload Event Baru
+        </button>
+      </div>
+
+      <!-- Tabel / List Event -->
+      <div class="glass-card rounded-2xl overflow-hidden border border-slate-800">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="border-b border-slate-800 bg-slate-900/50 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <th class="py-3.5 px-5">Nama Event</th>
+                <th class="py-3.5 px-5">Tanggal Event</th>
+                <th class="py-3.5 px-5">Status Pemrosesan</th>
+                <th class="py-3.5 px-5">Database JSON</th>
+                <th class="py-3.5 px-5 text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="eventListTable" class="divide-y divide-slate-800/60 text-sm">
+              <!-- Loading Skeleton / Empty State -->
+              <tr>
+                <td colspan="5" class="py-8 text-center text-slate-500 text-sm">
+                  Memuat daftar event Anda...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+
+  <!-- ================= MODAL TAMBAH EVENT ================= -->
+  <div id="eventModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="glass-card rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-700 relative">
+      <div class="flex justify-between items-center mb-5 pb-3 border-b border-slate-800">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+          Tambah Event Foto Baru
+        </h3>
+        <button id="btnCloseModal" class="text-slate-400 hover:text-white p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
       <form id="eventForm" class="space-y-4">
         <div>
-          <label class="block text-sm text-slate-300 mb-1">Nama Event / Sesi</label>
-          <input type="text" id="eventName" required placeholder="Contoh: Sunmori Lembang" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          <label class="block text-xs font-medium text-slate-300 mb-1">Nama Event / Sesi</label>
+          <input type="text" id="eventName" required placeholder="Contoh: Sunmori Lembang" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
         </div>
 
         <div>
-          <label class="block text-sm text-slate-300 mb-1">Tanggal Event</label>
-          <input type="date" id="eventDate" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
+          <label class="block text-xs font-medium text-slate-300 mb-1">Tanggal Event</label>
+          <input type="date" id="eventDate" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition">
         </div>
 
         <div>
-          <label class="block text-sm text-slate-300 mb-1">Link Google Drive Utuh</label>
-          <input type="url" id="gdriveUrl" required placeholder="https://drive.google.com/drive/folders/..." class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-white focus:outline-none focus:border-blue-500">
-          <p class="text-xs text-slate-500 mt-1">Folder ID akan diekstrak secara otomatis.</p>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Link Google Drive Utuh</label>
+          <input type="url" id="gdriveUrl" required placeholder="https://drive.google.com/drive/folders/..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+          <p class="text-[11px] text-slate-500 mt-1">Pastikan folder Google Drive sudah di-share (Viewer/Editor).</p>
         </div>
 
-        <button type="submit" id="btnSubmit" class="w-full bg-blue-600 hover:bg-blue-500 font-semibold py-2.5 rounded-lg transition mt-4">
-          Kirim ke Antrean AI
-        </button>
+        <div class="flex justify-end gap-3 pt-3 border-t border-slate-800">
+          <button type="button" id="btnCancelModal" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition">
+            Batal
+          </button>
+          <button type="submit" id="btnSubmit" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-blue-500/20">
+            Kirim ke Antrean AI
+          </button>
+        </div>
       </form>
-
-      <div id="statusMessage" class="mt-4 text-center text-sm font-medium hidden"></div>
     </div>
   </div>
 
-  <!-- Firebase Script (SDK v10 Modular) -->
+
+  <!-- ================= FIREBASE SCRIPT (SDK v10 Modular) ================= -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, where, orderBy, onSnapshot, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Konfigurasi dari proyek kamu
+    // 1. Konfigurasi Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyCO2QRZMA1Ui8J1eQA89o76oSc_YpfdEiU",
       authDomain: "find-your-photo-188a0.firebaseapp.com",
@@ -75,89 +203,199 @@
       measurementId: "G-G7SLK6MJ8E"
     };
 
+    // URL WEBHOOK GAS KAMU (Untuk Menghapus File JSON di Drive)
+    const GAS_WEBHOOK_URL = "ISI_DENGAN_URL_WEB_APP_GAS_KAMU_YANG_BERAKHIRAN_EXEC";
+
     // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
-    // Elemen DOM
+    // DOM Elements
     const loginSection = document.getElementById("loginSection");
     const adminSection = document.getElementById("adminSection");
     const userName = document.getElementById("userName");
+    const userEmail = document.getElementById("userEmail");
     const btnLogin = document.getElementById("btnLogin");
     const btnLogout = document.getElementById("btnLogout");
+    
+    const eventModal = document.getElementById("eventModal");
+    const btnOpenModal = document.getElementById("btnOpenModal");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const btnCancelModal = document.getElementById("btnCancelModal");
     const eventForm = document.getElementById("eventForm");
-    const statusMessage = document.getElementById("statusMessage");
+    
+    const eventListTable = document.getElementById("eventListTable");
+    const statTotal = document.getElementById("statTotal");
+    const statPending = document.getElementById("statPending");
+    const statSelesai = document.getElementById("statSelesai");
 
-    // Fungsi Ekstraksi Folder ID GDrive
+    let unsubscribeSnapshot = null;
+
+    // Helper: Ekstraksi Folder ID
     function extractFolderId(url) {
       const match = url.match(/folders\/([a-zA-Z0-9_-]+)/);
       return match ? match[1] : null;
     }
 
-    // Pantau Status Login
+    // Toggle Modal
+    function openModal() { eventModal.classList.remove("hidden"); }
+    function closeModal() { eventModal.classList.add("hidden"); eventForm.reset(); }
+
+    btnOpenModal.addEventListener("click", openModal);
+    btnCloseModal.addEventListener("click", closeModal);
+    btnCancelModal.addEventListener("click", closeModal);
+
+    // Pantau Auth Status
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        userName.textContent = user.displayName || user.email;
+        userName.textContent = user.displayName || "Fotografer";
+        userEmail.textContent = user.email;
         loginSection.classList.add("hidden");
         adminSection.classList.remove("hidden");
+
+        // Muat Data Realtime Event milik User ini
+        loadUserEvents(user.email);
       } else {
         loginSection.classList.remove("hidden");
         adminSection.classList.add("hidden");
+        if (unsubscribeSnapshot) unsubscribeSnapshot();
       }
     });
 
-    // Event Login
-    btnLogin.addEventListener("click", async () => {
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (err) {
-        alert("Gagal login: " + err.message);
-      }
-    });
-
-    // Event Logout
+    btnLogin.addEventListener("click", () => signInWithPopup(auth, provider));
     btnLogout.addEventListener("click", () => signOut(auth));
 
     // Submit Event Baru
     eventForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       
-      const name = document.getElementById("eventName").value;
+      const name = document.getElementById("eventName").value.trim();
       const date = document.getElementById("eventDate").value;
-      const rawUrl = document.getElementById("gdriveUrl").value;
+      const rawUrl = document.getElementById("gdriveUrl").value.trim();
       
       const folderId = extractFolderId(rawUrl);
       if (!folderId) {
-        alert("Link Google Drive tidak valid! Pastikan ada /folders/ID_FOLDER");
+        alert("Link Google Drive tidak valid! Pastikan mengandung format /folders/ID_FOLDER");
         return;
       }
 
-      statusMessage.className = "mt-4 text-center text-sm font-medium text-blue-400";
-      statusMessage.textContent = "Mengirim data ke antrean...";
-      statusMessage.classList.remove("hidden");
-
       try {
-        // Simpan ke Firestore koleksi 'queues' dengan status 'Pending'[cite: 1]
         await addDoc(collection(db, "queues"), {
           photographer_name: auth.currentUser.displayName || auth.currentUser.email,
           photographer_email: auth.currentUser.email,
           event_name: name,
           event_date: date,
           gdrive_folder_id: folderId,
-          status: "Pending", // Status awal Pending[cite: 1]
-          created_at: serverTimestamp()
+          status: "Pending",
+          created_at: new Date()
         });
 
-        statusMessage.className = "mt-4 text-center text-sm font-medium text-green-400";
-        statusMessage.textContent = "Event berhasil dikirim ke antrean AI!";
-        eventForm.reset();
+        closeModal();
       } catch (err) {
-        statusMessage.className = "mt-4 text-center text-sm font-medium text-red-400";
-        statusMessage.textContent = "Gagal menyimpan: " + err.message;
+        alert("Gagal menambahkan event: " + err.message);
       }
     });
+
+    // Realtime Listener Data Event Per-Akun
+    function loadUserEvents(email) {
+      const q = query(
+        collection(db, "queues"),
+        where("photographer_email", "==", email)
+      );
+
+      unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
+        let docsData = [];
+        snapshot.forEach((docSnap) => {
+          docsData.push({ id: docSnap.id, ...docSnap.data() });
+        });
+
+        // Urutkan berdasarkan tanggal dibuat (terbaru di atas)
+        docsData.sort((a, b) => (b.created_at?.seconds || 0) - (a.created_at?.seconds || 0));
+
+        // Update Stats
+        statTotal.textContent = docsData.length;
+        statPending.textContent = docsData.filter(d => d.status === "Pending" || d.status === "Diproses").length;
+        statSelesai.textContent = docsData.filter(d => d.status === "Selesai").length;
+
+        renderTable(docsData);
+      });
+    }
+
+    // Render Tabel Event
+    function renderTable(events) {
+      if (events.length === 0) {
+        eventListTable.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-12 text-center text-slate-500">
+              <svg class="w-12 h-12 mx-auto mb-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+              Belum ada event yang didaftarkan. Klik tombol "Upload Event Baru" di atas.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      eventListTable.innerHTML = events.map(ev => {
+        let badgeStatus = "";
+        if (ev.status === "Selesai") {
+          badgeStatus = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Selesai</span>`;
+        } else if (ev.status === "Diproses") {
+          badgeStatus = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20"><span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>Memproses AI</span>`;
+        } else {
+          badgeStatus = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Antrean (Pending)</span>`;
+        }
+
+        const jsonName = ev.json_filename ? ev.json_filename.replace("databases/", "") : "-";
+
+        return `
+          <tr class="hover:bg-slate-800/40 transition">
+            <td class="py-4 px-5 font-semibold text-white">
+              ${ev.event_name}
+              <p class="text-[11px] font-normal text-slate-500">Folder ID: ${ev.gdrive_folder_id}</p>
+            </td>
+            <td class="py-4 px-5 text-slate-300 text-xs">${ev.event_date || "-"}</td>
+            <td class="py-4 px-5">${badgeStatus}</td>
+            <td class="py-4 px-5 text-xs text-slate-400 font-mono">${jsonName}</td>
+            <td class="py-4 px-5 text-right">
+              <button onclick="deleteEvent('${ev.id}', '${jsonName}')" class="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg border border-red-500/20 transition" title="Hapus Event">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    // Fungsi Global Hapus Event
+    window.deleteEvent = async function(docId, jsonFilename) {
+      if (!confirm(`Apakah Anda yakin ingin menghapus event ini?\nFile JSON "${jsonFilename}" di Google Drive Master juga akan dihapus.`)) {
+        return;
+      }
+
+      try {
+        // 1. Hapus Dokumen dari Firebase Firestore
+        await deleteDoc(doc(db, "queues", docId));
+
+        // 2. Jika ada file JSON, kirim perintah hapus ke Webhook GAS
+        if (jsonFilename && jsonFilename !== "-") {
+          fetch(GAS_WEBHOOK_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              action: "delete",
+              filename: jsonFilename
+            })
+          });
+        }
+
+        alert("Event dan file JSON berhasil dihapus!");
+      } catch (err) {
+        alert("Gagal menghapus event: " + err.message);
+      }
+    };
   </script>
 </body>
-</html> 
+</html>
