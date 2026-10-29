@@ -19,7 +19,6 @@
 
   <!-- ================= LOG IN SECTION ================= -->
   <div id="loginSection" class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
-    <!-- Background Decor -->
     <div class="absolute -top-32 -left-32 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -29,18 +28,14 @@
       </div>
       <h1 class="text-2xl font-extrabold text-white mb-2">AI Photo Finder</h1>
       <p class="text-sm text-slate-400 mb-8">Portal Kelola Event & Sinkronisasi Foto Fotografer</p>
-
-      <button id="btnLogin" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 px-5 rounded-xl shadow-lg shadow-blue-500/25 flex items-center justify-center gap-3 transition transform active:scale-95">
-        <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+      <button id="btnLogin" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-3 px-5 rounded-xl shadow-lg flex items-center justify-center gap-3 transition active:scale-95">
         Login dengan Google
       </button>
     </div>
   </div>
 
-
   <!-- ================= DASHBOARD MAIN SECTION ================= -->
   <div id="adminSection" class="hidden min-h-screen flex flex-col">
-    <!-- Navbar Top -->
     <header class="glass-card sticky top-0 z-30 px-6 py-4 border-b border-slate-800">
       <div class="max-w-7xl mx-auto flex justify-between items-center">
         <div class="flex items-center gap-3">
@@ -53,78 +48,62 @@
           </div>
         </div>
 
-        <!-- User Profile Info & Logout -->
         <div class="flex items-center gap-3">
-          <div id="btnEditProfile" class="flex items-center gap-3 bg-slate-900/80 hover:bg-slate-800 p-1.5 pr-3 rounded-2xl border border-slate-700/80 cursor-pointer transition group" title="Klik untuk edit profil fotografer">
-            <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar" class="w-9 h-9 rounded-xl object-cover border border-blue-500/40 group-hover:border-blue-400 transition">
+          <div id="btnEditProfile" class="flex items-center gap-3 bg-slate-900/80 hover:bg-slate-800 p-1.5 pr-3 rounded-2xl border border-slate-700/80 cursor-pointer transition group">
+            <img id="userAvatar" src="https://via.placeholder.com/40" alt="Avatar" class="w-9 h-9 rounded-xl object-cover border border-blue-500/40">
             <div class="text-left hidden sm:block">
-              <p id="userName" class="text-xs font-bold text-slate-200 group-hover:text-blue-400 transition leading-tight"></p>
+              <p id="userName" class="text-xs font-bold text-slate-200 leading-tight flex items-center gap-1"></p>
               <p id="userEmail" class="text-[10px] text-slate-400 leading-tight"></p>
             </div>
-            <svg class="w-4 h-4 text-slate-500 group-hover:text-slate-300 transition ml-1 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
           </div>
-
-          <button id="btnLogout" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold py-2.5 px-3.5 rounded-xl border border-red-500/20 transition">
-            Logout
-          </button>
+          <button id="btnLogout" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-semibold py-2.5 px-3.5 rounded-xl border border-red-500/20 transition">Logout</button>
         </div>
       </div>
     </header>
 
-    <!-- Main Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto p-6 space-y-6">
-
-      <!-- Stat Highlight Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="glass-card p-5 rounded-2xl flex items-center justify-between">
           <div>
-            <p class="text-xs text-slate-400 uppercase tracking-wider">Total Event Anda</p>
+            <p class="text-xs text-slate-400 uppercase">Total Event</p>
             <p id="statTotal" class="text-2xl font-extrabold text-white mt-1">0</p>
           </div>
-          <div class="w-11 h-11 bg-blue-500/10 text-blue-400 rounded-xl flex items-center justify-center">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-          </div>
         </div>
-
         <div class="glass-card p-5 rounded-2xl flex items-center justify-between">
           <div>
-            <p class="text-xs text-slate-400 uppercase tracking-wider">Sedang Diproses AI</p>
+            <p class="text-xs text-slate-400 uppercase">Sedang Diproses AI</p>
             <p id="statPending" class="text-2xl font-extrabold text-amber-400 mt-1">0</p>
           </div>
-          <div class="w-11 h-11 bg-amber-500/10 text-amber-400 rounded-xl flex items-center justify-center">
-            <svg class="w-6 h-6 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-          </div>
         </div>
-
         <div class="glass-card p-5 rounded-2xl flex items-center justify-between">
           <div>
-            <p class="text-xs text-slate-400 uppercase tracking-wider">Selesai Terproses</p>
+            <p class="text-xs text-slate-400 uppercase">Selesai</p>
             <p id="statSelesai" class="text-2xl font-extrabold text-emerald-400 mt-1">0</p>
           </div>
-          <div class="w-11 h-11 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="glass-card p-5 rounded-2xl flex items-center justify-between border-blue-500/30">
+          <div>
+            <p class="text-xs text-slate-400 uppercase">Sisa Kuota Foto</p>
+            <p id="statQuota" class="text-2xl font-extrabold text-white mt-1">Memuat...</p>
           </div>
         </div>
       </div>
 
-      <!-- Header & Button Tambah Event -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-2">
         <div>
           <h2 class="text-xl font-bold text-white">Daftar Event Terdaftar</h2>
           <p class="text-xs text-slate-400">Kelola antrean dan database hasil analisis AI per event Anda.</p>
         </div>
-        <button id="btnOpenModal" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg shadow-blue-500/20 flex items-center gap-2 transition active:scale-95 text-sm">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-          Upload Event Baru
+        <button id="btnOpenModal" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold py-2.5 px-4 rounded-xl shadow-lg flex items-center gap-2 transition active:scale-95 text-sm">
+          + Upload Event Baru
         </button>
       </div>
 
-      <!-- Tabel / List Event -->
       <div class="glass-card rounded-2xl overflow-hidden border border-slate-800">
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="border-b border-slate-800 bg-slate-900/50 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+              <tr class="border-b border-slate-800 bg-slate-900/50 text-xs font-semibold text-slate-400 uppercase">
                 <th class="py-3.5 px-5">Nama Event</th>
                 <th class="py-3.5 px-5">Tanggal Event</th>
                 <th class="py-3.5 px-5">Status Pemrosesan</th>
@@ -133,112 +112,70 @@
               </tr>
             </thead>
             <tbody id="eventListTable" class="divide-y divide-slate-800/60 text-sm">
-              <tr>
-                <td colspan="5" class="py-8 text-center text-slate-500 text-sm">
-                  Memuat daftar event Anda...
-                </td>
-              </tr>
+              <tr><td colspan="5" class="py-8 text-center text-slate-500">Memuat data...</td></tr>
             </tbody>
           </table>
         </div>
       </div>
-
     </main>
   </div>
 
-
-  <!-- ================= MODAL EDIT PROFIL ================= -->
+  <!-- MODALS -->
   <div id="profileModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-700 relative">
       <div class="flex justify-between items-center mb-5 pb-3 border-b border-slate-800">
-        <h3 class="text-lg font-bold text-white flex items-center gap-2">
-          <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-          Edit Profil Fotografer
-        </h3>
-        <button id="btnCloseProfileModal" class="text-slate-400 hover:text-white p-1">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
+        <h3 class="text-lg font-bold text-white">Edit Profil Fotografer</h3>
+        <button id="btnCloseProfileModal" class="text-slate-400 hover:text-white">✕</button>
       </div>
-
       <form id="profileForm" class="space-y-4">
-        <div class="text-center mb-2">
-          <img id="profilePreview" src="" class="w-20 h-20 rounded-2xl object-cover mx-auto mb-2 border-2 border-blue-500 shadow-lg shadow-blue-500/20">
-          <p class="text-[11px] text-slate-400">Pratinjau Foto Profil</p>
-        </div>
-
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Nama Tampilan / Brand Fotografer</label>
-          <input type="text" id="editDisplayName" required placeholder="Contoh: Ramdani Photography" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
-          <p class="text-[11px] text-slate-500 mt-1">Nama ini yang muncul di filter pilihan fotografer web Riders.</p>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Nama Tampilan</label>
+          <input type="text" id="editDisplayName" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white">
         </div>
-
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">URL Foto Profil (Link Gambar)</label>
-          <input type="url" id="editPhotoURL" placeholder="https://... / link foto profil" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
-          <p class="text-[11px] text-slate-500 mt-1">Bisa dikosongkan untuk menggunakan foto akun Google.</p>
+          <label class="block text-xs font-medium text-slate-300 mb-1">URL Foto Profil</label>
+          <input type="url" id="editPhotoURL" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white">
         </div>
-
-        <div class="flex justify-end gap-3 pt-3 border-t border-slate-800">
-          <button type="button" id="btnCancelProfileModal" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition">
-            Batal
-          </button>
-          <button type="submit" id="btnSaveProfile" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-blue-500/20">
-            Simpan Profil
-          </button>
+        <div class="flex justify-end gap-3 pt-3">
+          <button type="button" id="btnCancelProfileModal" class="px-4 py-2 bg-slate-800 text-white rounded-xl">Batal</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 text-white rounded-xl">Simpan Profil</button>
         </div>
       </form>
     </div>
   </div>
 
-
-  <!-- ================= MODAL TAMBAH EVENT ================= -->
   <div id="eventModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
     <div class="glass-card rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-700 relative">
       <div class="flex justify-between items-center mb-5 pb-3 border-b border-slate-800">
-        <h3 class="text-lg font-bold text-white flex items-center gap-2">
-          <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-          Tambah Event Foto Baru
-        </h3>
-        <button id="btnCloseModal" class="text-slate-400 hover:text-white p-1">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
+        <h3 class="text-lg font-bold text-white">Tambah Event Baru</h3>
+        <button id="btnCloseModal" class="text-slate-400 hover:text-white">✕</button>
       </div>
-
       <form id="eventForm" class="space-y-4">
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Nama Event / Sesi</label>
-          <input type="text" id="eventName" required placeholder="Contoh: Sunmori Lembang" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
+          <label class="block text-xs font-medium text-slate-300 mb-1">Nama Event</label>
+          <input type="text" id="eventName" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white">
         </div>
-
         <div>
           <label class="block text-xs font-medium text-slate-300 mb-1">Tanggal Event</label>
-          <input type="date" id="eventDate" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition">
+          <input type="date" id="eventDate" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white">
         </div>
-
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">Link Google Drive Utuh</label>
-          <input type="url" id="gdriveUrl" required placeholder="https://drive.google.com/drive/folders/..." class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-blue-500 transition">
-          <p class="text-[11px] text-slate-500 mt-1">Pastikan folder Google Drive sudah di-share (Viewer/Editor).</p>
+          <label class="block text-xs font-medium text-slate-300 mb-1">Link Google Drive</label>
+          <input type="url" id="gdriveUrl" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white">
         </div>
-
-        <div class="flex justify-end gap-3 pt-3 border-t border-slate-800">
-          <button type="button" id="btnCancelModal" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition">
-            Batal
-          </button>
-          <button type="submit" id="btnSubmit" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-blue-500/20">
-            Kirim ke Antrean AI
-          </button>
+        <div class="flex justify-end gap-3 pt-3">
+          <button type="button" id="btnCancelModal" class="px-4 py-2 bg-slate-800 text-white rounded-xl">Batal</button>
+          <button type="submit" class="px-5 py-2 bg-blue-600 text-white rounded-xl">Kirim ke AI</button>
         </div>
       </form>
     </div>
   </div>
 
-
-  <!-- ================= FIREBASE SCRIPT ================= -->
+  <!-- FIREBASE ENGINE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, where, onSnapshot, deleteDoc, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, query, where, onSnapshot, deleteDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCO2QRZMA1Ui8J1eQA89o76oSc_YpfdEiU",
@@ -246,8 +183,7 @@
       projectId: "find-your-photo-188a0",
       storageBucket: "find-your-photo-188a0.firebasestorage.app",
       messagingSenderId: "212497999030",
-      appId: "1:212497999030:web:82380565489f6140ebf217",
-      measurementId: "G-G7SLK6MJ8E"
+      appId: "1:212497999030:web:82380565489f6140ebf217"
     };
 
     const GAS_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwCnZTJmkfKnxjXiEudEEO01ApI4-kIcj0pJbXM-iLy4EqWuzPSRVVAuABuDAswhy7b/exec";
@@ -257,274 +193,165 @@
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
-    // DOM Elements
-    const loginSection = document.getElementById("loginSection");
-    const adminSection = document.getElementById("adminSection");
-    const userName = document.getElementById("userName");
-    const userEmail = document.getElementById("userEmail");
-    const userAvatar = document.getElementById("userAvatar");
-    const btnLogin = document.getElementById("btnLogin");
-    const btnLogout = document.getElementById("btnLogout");
-    
-    // Modal Event Elements
-    const eventModal = document.getElementById("eventModal");
-    const btnOpenModal = document.getElementById("btnOpenModal");
-    const btnCloseModal = document.getElementById("btnCloseModal");
-    const btnCancelModal = document.getElementById("btnCancelModal");
-    const eventForm = document.getElementById("eventForm");
-
-    // Modal Profile Elements
-    const profileModal = document.getElementById("profileModal");
-    const btnEditProfile = document.getElementById("btnEditProfile");
-    const btnCloseProfileModal = document.getElementById("btnCloseProfileModal");
-    const btnCancelProfileModal = document.getElementById("btnCancelProfileModal");
-    const profileForm = document.getElementById("profileForm");
-    const editDisplayName = document.getElementById("editDisplayName");
-    const editPhotoURL = document.getElementById("editPhotoURL");
-    const profilePreview = document.getElementById("profilePreview");
-    
-    const eventListTable = document.getElementById("eventListTable");
-    const statTotal = document.getElementById("statTotal");
-    const statPending = document.getElementById("statPending");
-    const statSelesai = document.getElementById("statSelesai");
-
-    let unsubscribeSnapshot = null;
     let currentCustomName = "";
     let currentCustomPhoto = "";
+    let currentQuota = 0;
+    let isMasterAccount = false;
+    let unsubscribeSnapshot = null;
+    let userSnapshotUnsubscribe = null;
 
     function extractFolderId(url) {
       const match = url.match(/folders\/([a-zA-Z0-9_-]+)/);
       return match ? match[1] : null;
     }
 
-    // Modal Toggles
-    function openEventModal() { eventModal.classList.remove("hidden"); }
-    function closeEventModal() { eventModal.classList.add("hidden"); eventForm.reset(); }
-    
-    function openProfileModal() {
-      editDisplayName.value = currentCustomName || auth.currentUser.displayName || "";
-      editPhotoURL.value = currentCustomPhoto || auth.currentUser.photoURL || "";
-      profilePreview.src = editPhotoURL.value || auth.currentUser.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(editDisplayName.value)}`;
-      profileModal.classList.remove("hidden");
-    }
-    function closeProfileModal() { profileModal.classList.add("hidden"); }
-
-    btnOpenModal.addEventListener("click", openEventModal);
-    btnCloseModal.addEventListener("click", closeEventModal);
-    btnCancelModal.addEventListener("click", closeEventModal);
-
-    btnEditProfile.addEventListener("click", openProfileModal);
-    btnCloseProfileModal.addEventListener("click", closeProfileModal);
-    btnCancelProfileModal.addEventListener("click", closeProfileModal);
-
-    // Dynamic Image Preview saat ketik URL
-    editPhotoURL.addEventListener("input", function() {
-      profilePreview.src = this.value || `https://ui-avatars.com/api/?name=${encodeURIComponent(editDisplayName.value)}`;
+    document.getElementById("btnOpenModal").addEventListener("click", () => {
+      if (!isMasterAccount && currentQuota <= 0) {
+        alert("Kuota foto gratis Anda sudah habis (0). Hubungi admin untuk isi ulang.");
+        return;
+      }
+      document.getElementById("eventModal").classList.remove("hidden");
     });
+    
+    document.getElementById("btnCloseModal").addEventListener("click", () => document.getElementById("eventModal").classList.add("hidden"));
+    document.getElementById("btnCancelModal").addEventListener("click", () => document.getElementById("eventModal").classList.add("hidden"));
 
-    // Auth State
+    document.getElementById("btnEditProfile").addEventListener("click", () => {
+      document.getElementById("editDisplayName").value = currentCustomName;
+      document.getElementById("editPhotoURL").value = currentCustomPhoto;
+      document.getElementById("profileModal").classList.remove("hidden");
+    });
+    document.getElementById("btnCloseProfileModal").addEventListener("click", () => document.getElementById("profileModal").classList.add("hidden"));
+    document.getElementById("btnCancelProfileModal").addEventListener("click", () => document.getElementById("profileModal").classList.add("hidden"));
+
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        try {
-          // Ambil data profil kustom dari Firestore jika ada
-          const userDocRef = doc(db, "users", user.uid);
-          const userDocSnap = await getDoc(userDocRef);
-
+        const userDocRef = doc(db, "users", user.uid);
+        
+        userSnapshotUnsubscribe = onSnapshot(userDocRef, async (userDocSnap) => {
           if (userDocSnap.exists()) {
-            const userData = userDocSnap.data();
-            currentCustomName = userData.custom_name || user.displayName;
-            currentCustomPhoto = userData.photo_url || user.photoURL;
+            const data = userDocSnap.data();
+            currentCustomName = data.custom_name || user.displayName;
+            currentCustomPhoto = data.photo_url || user.photoURL;
+            currentQuota = data.remaining_quota ?? 500;
+            // Pengecekan master kini membaca murni dari database (stempel dari Python)
+            isMasterAccount = data.role === "master"; 
           } else {
-            currentCustomName = user.displayName || "Fotografer";
-            currentCustomPhoto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentCustomName)}`;
+            await setDoc(userDocRef, {
+              custom_name: user.displayName || "Fotografer",
+              photo_url: user.photoURL,
+              email: user.email,
+              remaining_quota: 500,
+              role: "user",
+              updated_at: new Date()
+            });
+            currentCustomName = user.displayName;
+            currentCustomPhoto = user.photoURL;
+            currentQuota = 500;
+            isMasterAccount = false;
           }
-        } catch (err) {
-          console.warn("Gagal membaca profil kustom, menggunakan data bawaan Google:", err);
-          currentCustomName = user.displayName || "Fotografer";
-          currentCustomPhoto = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentCustomName)}`;
-        }
 
-        userName.textContent = currentCustomName;
-        userEmail.textContent = user.email;
-        userAvatar.src = currentCustomPhoto;
+          document.getElementById("userName").innerHTML = currentCustomName + 
+            (isMasterAccount ? ` <span class="bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 text-[9px] font-extrabold px-2 py-0.5 rounded-full ml-1">UNLIMITED</span>` : ``);
+          
+          document.getElementById("userEmail").textContent = user.email;
+          document.getElementById("userAvatar").src = currentCustomPhoto;
+          document.getElementById("statQuota").innerHTML = isMasterAccount ? "∞ <span class='text-xs text-slate-400 font-normal'>Unlimited</span>" : `${currentQuota} <span class='text-xs text-slate-400 font-normal'>Foto</span>`;
+        });
 
-        loginSection.classList.add("hidden");
-        adminSection.classList.remove("hidden");
-
+        document.getElementById("loginSection").classList.add("hidden");
+        document.getElementById("adminSection").classList.remove("hidden");
         loadUserEvents(user.email);
       } else {
-        loginSection.classList.remove("hidden");
-        adminSection.classList.add("hidden");
+        document.getElementById("loginSection").classList.remove("hidden");
+        document.getElementById("adminSection").classList.add("hidden");
         if (unsubscribeSnapshot) unsubscribeSnapshot();
+        if (userSnapshotUnsubscribe) userSnapshotUnsubscribe();
       }
     });
-    btnLogin.addEventListener("click", async () => {
-      try {
-        await signInWithPopup(auth, provider);
-      } catch (err) {
-        alert("Gagal login dengan Google: " + err.message);
-      }
-    });
-    btnLogout.addEventListener("click", () => signOut(auth));
 
-    // Submit Edit Profil
-    profileForm.addEventListener("submit", async (e) => {
+    document.getElementById("btnLogin").addEventListener("click", () => signInWithPopup(auth, provider));
+    document.getElementById("btnLogout").addEventListener("click", () => signOut(auth));
+
+    document.getElementById("profileForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const newName = editDisplayName.value.trim();
-      const newPhoto = editPhotoURL.value.trim() || `https://ui-avatars.com/api/?name=${encodeURIComponent(newName)}`;
+      const nName = document.getElementById("editDisplayName").value.trim();
+      const nPhoto = document.getElementById("editPhotoURL").value.trim() || auth.currentUser.photoURL;
+      
+      // Update profil via merge, tidak menyentuh quota/role agar tidak di-block rules
+      await setDoc(doc(db, "users", auth.currentUser.uid), {
+        custom_name: nName,
+        photo_url: nPhoto,
+        updated_at: new Date()
+      }, { merge: true });
 
-      try {
-        const user = auth.currentUser;
-        
-        // 1. Simpan ke Firestore koleksi 'users'
-        await setDoc(doc(db, "users", user.uid), {
-          custom_name: newName,
-          photo_url: newPhoto,
-          email: user.email,
-          updated_at: new Date()
-        });
-
-        // 2. Update Firebase Auth Profile
-        await updateProfile(user, {
-          displayName: newName,
-          photoURL: newPhoto
-        });
-
-        currentCustomName = newName;
-        currentCustomPhoto = newPhoto;
-
-        userName.textContent = currentCustomName;
-        userAvatar.src = currentCustomPhoto;
-
-        closeProfileModal();
-        alert("Profil fotografer berhasil diperbarui!");
-      } catch (err) {
-        alert("Gagal memperbarui profil: " + err.message);
-      }
+      document.getElementById("profileModal").classList.add("hidden");
     });
 
-    // Submit Event Baru
-    eventForm.addEventListener("submit", async (e) => {
+    document.getElementById("eventForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      
-      const name = document.getElementById("eventName").value.trim();
-      const date = document.getElementById("eventDate").value;
-      const rawUrl = document.getElementById("gdriveUrl").value.trim();
-      
-      const folderId = extractFolderId(rawUrl);
-      if (!folderId) {
-        alert("Link Google Drive tidak valid! Pastikan mengandung format /folders/ID_FOLDER");
+      if (!isMasterAccount && currentQuota <= 0) {
+        alert("Kuota gratis Anda habis!");
         return;
       }
 
-      try {
-        await addDoc(collection(db, "queues"), {
-          photographer_name: currentCustomName || auth.currentUser.displayName || auth.currentUser.email,
-          photographer_email: auth.currentUser.email,
-          event_name: name,
-          event_date: date,
-          gdrive_folder_id: folderId,
-          status: "Pending",
-          created_at: new Date()
-        });
-
-        closeEventModal();
-      } catch (err) {
-        alert("Gagal menambahkan event: " + err.message);
+      const folderId = extractFolderId(document.getElementById("gdriveUrl").value.trim());
+      if (!folderId) {
+        alert("Link Google Drive tidak valid!");
+        return;
       }
+
+      await addDoc(collection(db, "queues"), {
+        photographer_name: currentCustomName || auth.currentUser.displayName,
+        photographer_email: auth.currentUser.email,
+        event_name: document.getElementById("eventName").value.trim(),
+        event_date: document.getElementById("eventDate").value,
+        gdrive_folder_id: folderId,
+        status: "Pending",
+        created_at: new Date()
+      });
+
+      document.getElementById("eventModal").classList.add("hidden");
+      document.getElementById("eventForm").reset();
     });
 
-    // Realtime Listener Data Event
     function loadUserEvents(email) {
-      const q = query(
-        collection(db, "queues"),
-        where("photographer_email", "==", email)
-      );
-
+      const q = query(collection(db, "queues"), where("photographer_email", "==", email));
       unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
         let docsData = [];
-        snapshot.forEach((docSnap) => {
-          docsData.push({ id: docSnap.id, ...docSnap.data() });
-        });
-
+        snapshot.forEach(docSnap => docsData.push({ id: docSnap.id, ...docSnap.data() }));
         docsData.sort((a, b) => (b.created_at?.seconds || 0) - (a.created_at?.seconds || 0));
 
-        statTotal.textContent = docsData.length;
-        statPending.textContent = docsData.filter(d => d.status === "Pending" || d.status === "Diproses").length;
-        statSelesai.textContent = docsData.filter(d => d.status === "Selesai").length;
+        document.getElementById("statTotal").textContent = docsData.length;
+        document.getElementById("statPending").textContent = docsData.filter(d => d.status === "Pending" || d.status === "Diproses").length;
+        document.getElementById("statSelesai").textContent = docsData.filter(d => d.status === "Selesai").length;
 
-        renderTable(docsData);
+        const tableBody = document.getElementById("eventListTable");
+        if (docsData.length === 0) {
+          tableBody.innerHTML = `<tr><td colspan="5" class="py-12 text-center text-slate-500">Belum ada event.</td></tr>`;
+          return;
+        }
+
+        tableBody.innerHTML = docsData.map(ev => {
+          const badge = ev.status === "Selesai" ? `<span class="text-emerald-400">Selesai</span>` :
+                        ev.status === "Diproses" ? `<span class="text-blue-400 animate-pulse">Memproses AI</span>` :
+                        ev.status === "Gagal_Kuota_Habis" ? `<span class="text-red-400 font-bold">Kuota Habis</span>` :
+                        `<span class="text-amber-400">Pending</span>`;
+          return `
+            <tr class="hover:bg-slate-800/40 border-b border-slate-800/60">
+              <td class="py-4 px-5 text-white font-semibold">${ev.event_name}</td>
+              <td class="py-4 px-5 text-slate-300">${ev.event_date || "-"}</td>
+              <td class="py-4 px-5">${badge}</td>
+              <td class="py-4 px-5 text-slate-400 font-mono text-xs">${ev.json_filename ? ev.json_filename.split(/[\\/]/).pop() : "-"}</td>
+              <td class="py-4 px-5 text-right"><button onclick="deleteEvent('${ev.id}')" class="text-red-400 hover:text-red-300">Hapus</button></td>
+            </tr>`;
+        }).join("");
       });
     }
 
-    function renderTable(events) {
-      if (events.length === 0) {
-        eventListTable.innerHTML = `
-          <tr>
-            <td colspan="5" class="py-12 text-center text-slate-500">
-              <svg class="w-12 h-12 mx-auto mb-3 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
-              Belum ada event yang didaftarkan. Klik tombol "Upload Event Baru" di atas.
-            </td>
-          </tr>
-        `;
-        return;
-      }
-
-      eventListTable.innerHTML = events.map(ev => {
-        let badgeStatus = "";
-        if (ev.status === "Selesai") {
-          badgeStatus = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Selesai</span>`;
-        } else if (ev.status === "Diproses") {
-          badgeStatus = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20"><span class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></span>Memproses AI</span>`;
-        } else {
-          badgeStatus = `<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Antrean (Pending)</span>`;
-        }
-
-        const jsonName = ev.json_filename ? ev.json_filename.split(/[\\/]/).pop() : "-";
-
-        return `
-          <tr class="hover:bg-slate-800/40 transition">
-            <td class="py-4 px-5 font-semibold text-white">
-              ${ev.event_name}
-              <p class="text-[11px] font-normal text-slate-500">Folder ID: ${ev.gdrive_folder_id}</p>
-            </td>
-            <td class="py-4 px-5 text-slate-300 text-xs">${ev.event_date || "-"}</td>
-            <td class="py-4 px-5">${badgeStatus}</td>
-            <td class="py-4 px-5 text-xs text-slate-400 font-mono">${jsonName}</td>
-            <td class="py-4 px-5 text-right">
-              <button onclick="deleteEvent('${ev.id}', '${jsonName}')" class="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg border border-red-500/20 transition" title="Hapus Event">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-              </button>
-            </td>
-          </tr>
-        `;
-      }).join("");
-    }
-
-    // Fungsi Hapus Event
-    window.deleteEvent = async function(docId, jsonFilename) {
-      if (!confirm(`Apakah Anda yakin ingin menghapus event ini?\nFile JSON "${jsonFilename}" di Google Drive Master juga akan dihapus.`)) {
-        return;
-      }
-
-      try {
+    window.deleteEvent = async (docId) => {
+      if (confirm("Hapus event ini?")) {
         await deleteDoc(doc(db, "queues", docId));
-
-        if (jsonFilename && jsonFilename !== "-") {
-          fetch(GAS_WEBHOOK_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              action: "delete",
-              filename: jsonFilename
-            })
-          });
-        }
-
-        alert("Event dan file JSON berhasil dihapus!");
-      } catch (err) {
-        alert("Gagal menghapus event: " + err.message);
       }
     };
   </script>
