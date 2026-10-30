@@ -107,12 +107,13 @@
                 <th class="py-3.5 px-5">Nama Event</th>
                 <th class="py-3.5 px-5">Tanggal Event</th>
                 <th class="py-3.5 px-5">Status Pemrosesan</th>
+                <th class="py-3.5 px-5">Ringkasan Foto & Kuota</th>
                 <th class="py-3.5 px-5">Database JSON</th>
                 <th class="py-3.5 px-5 text-right">Aksi</th>
               </tr>
             </thead>
             <tbody id="eventListTable" class="divide-y divide-slate-800/60 text-sm">
-              <tr><td colspan="5" class="py-8 text-center text-slate-500">Memuat data...</td></tr>
+              <tr><td colspan="6" class="py-8 text-center text-slate-500">Memuat data...</td></tr>
             </tbody>
           </table>
         </div>
@@ -162,6 +163,9 @@
         <div>
           <label class="block text-xs font-medium text-slate-300 mb-1">Link Google Drive</label>
           <input type="url" id="gdriveUrl" required class="w-full bg-slate-900 border border-slate-700 rounded-xl p-2.5 text-sm text-white">
+        </div>
+        <div class="rounded-xl border border-blue-500/20 bg-blue-500/10 p-3 text-xs leading-relaxed text-blue-200">
+          Pemrosesan mengikuti sisa kuota harian akun. Jika jumlah foto melebihi kuota, hanya foto yang mendapat slot kuota yang dianalisis AI dan dimasukkan ke hasil pencarian. Foto selebihnya tetap berada di Google Drive dan tidak diproses.
         </div>
         <div class="flex justify-end gap-3 pt-3">
           <button type="button" id="btnCancelModal" class="px-4 py-2 bg-slate-800 text-white rounded-xl">Batal</button>
@@ -315,6 +319,13 @@
       document.getElementById("eventForm").reset();
     });
 
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;",
+        '"': "&quot;", "'": "&#39;"
+      })[char]);
+    }
+
     function loadUserEvents(email) {
       const q = query(collection(db, "queues"), where("photographer_email", "==", email));
       unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
@@ -328,21 +339,56 @@
 
         const tableBody = document.getElementById("eventListTable");
         if (docsData.length === 0) {
-          tableBody.innerHTML = `<tr><td colspan="5" class="py-12 text-center text-slate-500">Belum ada event.</td></tr>`;
+          tableBody.innerHTML = `<tr><td colspan="6" class="py-12 text-center text-slate-500">Belum ada event.</td></tr>`;
           return;
         }
 
         tableBody.innerHTML = docsData.map(ev => {
-          const badge = ev.status === "Selesai" ? `<span class="text-emerald-400">Selesai</span>` :
-                        ev.status === "Diproses" ? `<span class="text-blue-400 animate-pulse">Memproses AI</span>` :
-                        ev.status === "Gagal_Kuota_Habis" ? `<span class="text-red-400 font-bold">Kuota Habis</span>` :
-                        `<span class="text-amber-400">Pending</span>`;
+          const totalFound = Number(ev.jumlah_foto_ditemukan ?? 0);
+          const excluded = Number(ev.jumlah_foto_dibatasi_kuota ?? ev.quota_excluded_count ?? 0);
+          const isDone = ev.status === "Selesai";
+          const isLimited = excluded > 0;
+
+          const badge = isDone
+            ? `<span class="text-emerald-400">Selesai</span>${isLimited ? `<div class="mt-1"><span class="inline-flex rounded-full bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 text-[10px] font-semibold text-amber-300">Sebagian dibatasi kuota</span></div>` : ""}`
+            : ev.status === "Diproses" ? `<span class="text-blue-400 animate-pulse">Memproses AI</span>`
+            : ev.status === "Gagal_Kuota_Habis" ? `<span class="text-red-400 font-bold">Kuota Habis</span>`
+            : `<span class="text-amber-400">Menunggu antrean</span>`;
+
+          const hasQuotaInfo =
+            ev.kuota_foto_dicadangkan !== undefined ||
+            ev.quota_reserved_count !== undefined ||
+            ev.pemrosesan_tanpa_batas === true;
+          const accepted = ev.pemrosesan_tanpa_batas === true
+            ? totalFound
+            : Number(ev.kuota_foto_dicadangkan ?? ev.quota_reserved_count ?? 0);
+          const quotaUsed = Number(ev.kuota_foto_terpakai ?? ev.jumlah_foto_dikirim_ke_api ?? 0);
+          const saved = Number(ev.jumlah_hasil_tersimpan ?? 0);
+          const unresolved = Number(ev.jumlah_foto_belum_berhasil ?? 0);
+
+          const quotaSummary = hasQuotaInfo ? `
+            <div class="space-y-1 min-w-[180px]">
+              <div class="flex justify-between gap-3 text-xs"><span class="text-slate-400">Foto ditemukan</span><strong class="text-slate-200">${totalFound}</strong></div>
+              <div class="flex justify-between gap-3 text-xs"><span class="text-slate-400">Diterima kuota</span><strong class="text-emerald-300">${accepted}</strong></div>
+              <div class="flex justify-between gap-3 text-xs"><span class="text-slate-400">Kuota terpakai</span><strong class="text-blue-300">${ev.pemrosesan_tanpa_batas === true ? "Unlimited" : quotaUsed}</strong></div>
+              <div class="flex justify-between gap-3 text-xs"><span class="text-slate-400">Tidak diproses</span><strong class="${excluded > 0 ? "text-amber-300" : "text-slate-300"}">${excluded}</strong></div>
+              <div class="flex justify-between gap-3 text-xs"><span class="text-slate-400">Hasil di JSON</span><strong class="text-slate-200">${saved}</strong></div>
+              ${unresolved > 0 ? `<div class="text-[10px] text-red-300">${unresolved} foto gagal diproses</div>` : ""}
+            </div>`
+            : `<span class="text-xs text-slate-500">Menunggu pemeriksaan kuota</span>`;
+
+          const statusMessage = ev.pesan_status
+            ? `<p class="mt-1 max-w-[220px] text-[10px] leading-relaxed text-amber-200/80">${escapeHtml(ev.pesan_status)}</p>`
+            : "";
+          const jsonName = ev.json_filename ? ev.json_filename.split(/[\\/]/).pop() : "-";
+
           return `
-            <tr class="hover:bg-slate-800/40 border-b border-slate-800/60">
-              <td class="py-4 px-5 text-white font-semibold">${ev.event_name}</td>
-              <td class="py-4 px-5 text-slate-300">${ev.event_date || "-"}</td>
-              <td class="py-4 px-5">${badge}</td>
-              <td class="py-4 px-5 text-slate-400 font-mono text-xs">${ev.json_filename ? ev.json_filename.split(/[\\/]/).pop() : "-"}</td>
+            <tr class="hover:bg-slate-800/40 border-b border-slate-800/60 align-top">
+              <td class="py-4 px-5 text-white font-semibold">${escapeHtml(ev.event_name || "Tanpa nama")}</td>
+              <td class="py-4 px-5 text-slate-300 whitespace-nowrap">${escapeHtml(ev.event_date || "-")}</td>
+              <td class="py-4 px-5">${badge}${statusMessage}</td>
+              <td class="py-4 px-5">${quotaSummary}</td>
+              <td class="py-4 px-5 text-slate-400 font-mono text-xs">${escapeHtml(jsonName)}</td>
               <td class="py-4 px-5 text-right"><button onclick="deleteEvent('${ev.id}')" class="text-red-400 hover:text-red-300">Hapus</button></td>
             </tr>`;
         }).join("");
