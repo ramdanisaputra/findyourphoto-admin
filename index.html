@@ -349,8 +349,9 @@
           const isDone = ev.status === "Selesai";
           const isLimited = excluded > 0;
 
+          const quotaTooltip = `${excluded} foto tidak diproses karena melebihi kuota harian. Foto tetap berada di Google Drive, tidak masuk JSON hasil AI, dan tidak diproses otomatis.`;
           const badge = isDone
-            ? `<span class="text-emerald-400">Selesai</span>${isLimited ? `<div class="mt-1"><span class="inline-flex rounded-full bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 text-[10px] font-semibold text-amber-300">Sebagian dibatasi kuota</span></div>` : ""}`
+            ? `<span class="text-emerald-400">Selesai</span>${isLimited ? `<div class="mt-1"><span title="${quotaTooltip}" class="inline-flex rounded-full bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 text-[10px] font-semibold text-amber-300 cursor-help">Sebagian dibatasi kuota</span></div>` : ""}`
             : ev.status === "Diproses" ? `<span class="text-blue-400 animate-pulse">Memproses AI</span>`
             : ev.status === "Gagal_Kuota_Habis" ? `<span class="text-red-400 font-bold">Kuota Habis</span>`
             : `<span class="text-amber-400">Menunggu antrean</span>`;
@@ -363,7 +364,6 @@
             ? totalFound
             : Number(ev.kuota_foto_dicadangkan ?? ev.quota_reserved_count ?? 0);
           const quotaUsed = Number(ev.kuota_foto_terpakai ?? ev.jumlah_foto_dikirim_ke_api ?? 0);
-          const saved = Number(ev.jumlah_hasil_tersimpan ?? 0);
           const unresolved = Number(ev.jumlah_foto_belum_berhasil ?? 0);
 
           const quotaSummary = hasQuotaInfo ? `
@@ -372,12 +372,12 @@
               <div class="flex justify-between gap-3 text-xs"><span class="text-slate-400">Diterima kuota</span><strong class="text-emerald-300">${accepted}</strong></div>
               <div class="flex justify-between gap-3 text-xs"><span class="text-slate-400">Kuota terpakai</span><strong class="text-blue-300">${ev.pemrosesan_tanpa_batas === true ? "Unlimited" : quotaUsed}</strong></div>
               <div class="flex justify-between gap-3 text-xs"><span class="text-slate-400">Tidak diproses</span><strong class="${excluded > 0 ? "text-amber-300" : "text-slate-300"}">${excluded}</strong></div>
-              <div class="flex justify-between gap-3 text-xs"><span class="text-slate-400">Hasil di JSON</span><strong class="text-slate-200">${saved}</strong></div>
               ${unresolved > 0 ? `<div class="text-[10px] text-red-300">${unresolved} foto gagal diproses</div>` : ""}
             </div>`
             : `<span class="text-xs text-slate-500">Menunggu pemeriksaan kuota</span>`;
 
-          const statusMessage = ev.pesan_status
+          // Pesan pembatasan kuota hanya ditampilkan melalui tooltip pada badge.
+          const statusMessage = !isLimited && ev.pesan_status
             ? `<p class="mt-1 max-w-[220px] text-[10px] leading-relaxed text-amber-200/80">${escapeHtml(ev.pesan_status)}</p>`
             : "";
           const jsonName = ev.json_filename ? ev.json_filename.split(/[\\/]/).pop() : "-";
